@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
 
     Forfait.associate=models=>{
       Forfait.belongsToMany(models.Course, {through:"Course_forfait", as:"Courses", foreignKey:"forfait_id"});
+      Forfait.hasOne(models.Offer);
   }
 
 

@@ -43,6 +43,7 @@ module.exports = (sequelize, DataTypes) => {
     Course.associate=models=>{
         Course.hasMany(models.Section);
         Course.belongsToMany(models.Forfait, {through:"Course_forfait", as:"Forfaits", foreignKey:"course_id"});
+        Course.hasOne(models.Offer);
     }
 
     return Course;
