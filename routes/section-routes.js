@@ -1,6 +1,7 @@
 const express= require("express");
 const router= express.Router();
 const db =require("../models");
+const { ValidationError, UniqueConstraintError }= require('sequelize')
 
 router.post('/new', (req, res)=>{
     db.Section.create(req.body)
@@ -19,6 +20,15 @@ router.post('/new', (req, res)=>{
         res.status(500).json({message, data:error})
       })
 })
+
+// READ ALL
+router.get("/", (req, res) => {
+  db.Section.findAll().then(section => {
+      res.json(section);
+    }).catch(function (err) {
+        console.log("findAll failed with error: " + err );
+        return null;
+    })})
 
 
 

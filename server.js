@@ -8,15 +8,23 @@ const app= express();
 
 app.use(bodyParser.json()).use(cors());
 
-// CRUD course
+// CRUD User
+const userRoutes=require('./routes/user-routes')
+app.use("/auth", userRoutes);
+
+// CRUD Offer
+const offerRoutes=require('./routes/offer-routes')
+app.use("/offer", offerRoutes);
+
+// CRUD Course
 const courseRoutes=require('./routes/course-routes')
 app.use("/course", courseRoutes);
 
-// CRUD forfait
+// CRUD Forfait
 const forfaitRoutes=require('./routes/forfait-routes')
 app.use("/forfait", forfaitRoutes);
 
-// CRUD section
+// CRUD Section
 const sectionRoutes=require('./routes/section-routes')
 app.use("/section", sectionRoutes);
 
