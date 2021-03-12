@@ -18,6 +18,7 @@
     "password": "u8lyrx02g6ml9vge",
     "database": "mysql://u8lyrx02g6ml9vge:3kFejKDTYunNtoucmFLM@bmnj1o7wqzr1onkn66p5-mysql.services.clever-cloud.com:3306/bmnj1o7wqzr1onkn66p5",
     "host": "bmnj1o7wqzr1onkn66p5-mysql.services.clever-cloud.com",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "dialectModule": "mysql2"
   }
 }
