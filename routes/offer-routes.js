@@ -10,7 +10,8 @@ router.get("/", (req, res) => {
         return db.Offer.findAndCountAll({
             where:{
                 CourseId:{[Op.eq]:`${course}`}
-            }
+            },
+            include:[db.Course, db.Forfait, db.Section]
         }).then(({ count, rows }) => {
             const message = `Il y a ${count} offres qui correspond(ent) au terme de recherche.`;
             res.json({ message, data: rows });

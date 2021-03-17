@@ -1,18 +1,36 @@
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define('User', {
-      id: {
+      id:{
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
       },
-      username: {
+      surname:{
         type: DataTypes.STRING,
-        unique:{
-            msg:'Le nom est déjà pris.'
-          }
+        allowNull: false,
       },
-      password: {
-        type: DataTypes.STRING
+      name:{
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      mail:{
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique:{
+          msg:'Cette adresse mail est déjà liée à un compte.'
+        },
+      },
+      phone:{
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      password:{
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      role:{
+        type: DataTypes.STRING,
+        defaultValue: "VISITOR",
       }
     },
     {
