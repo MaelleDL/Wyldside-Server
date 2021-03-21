@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define('User', {
+const User=sequelize.define('User', {
       id:{
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -39,4 +39,9 @@ module.exports = (sequelize, DataTypes) => {
         updatedAt: false
       } 
     )
+    User.associate=models=>{
+    User.hasMany(models.Order);
+  }
+  
+  return User;
   }

@@ -1,9 +1,10 @@
 const express= require("express");
 const router= express.Router();
 const db =require("../models");
-const { ValidationError, UniqueConstraintError }= require('sequelize')
+const { ValidationError, UniqueConstraintError }= require('sequelize');
+const isAdmin=require('../auth/isAdmin')
 
-router.post('/new', (req, res)=>{
+router.post('/new',isAdmin, (req, res)=>{
     db.Section.create(req.body)
       .then(course => {
         const message = `La section ${req.body.name} a bien été crée.`

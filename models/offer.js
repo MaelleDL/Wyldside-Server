@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         Offer.belongsTo(models.Course);
         Offer.belongsTo(models.Section);
         Offer.belongsTo(models.Forfait);
+        Offer.belongsToMany(models.Order, {through: "Offer_order", as: "Orders", foreignKey:"Offer_id"});
     }
 
     return Offer;

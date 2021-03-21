@@ -1,11 +1,12 @@
 const express= require("express");
 const router= express.Router();
 const db =require("../models");
-const { ValidationError, UniqueConstraintError }= require('sequelize')
+const { ValidationError, UniqueConstraintError }= require('sequelize');
+const isAdmin=require('../auth/isAdmin');
 
 
 // POST
-router.post('/new', (req, res)=>{
+router.post('/new', isAdmin, (req, res)=>{
     db.Course.create(req.body)
       .then(course => {
         const message = `La discipline ${req.body.name} a bien été crée.`
@@ -54,7 +55,7 @@ router.get("/:id", (req, res) =>{
 
 // UPDATE
 
-router.put('/:id', (req, res) => {
+router.put('/:id',isAdmin, (req, res) => {
   const id = req.params.id
   db.Course.update(req.body, {
     where: { id: id }
@@ -84,7 +85,7 @@ router.put('/:id', (req, res) => {
 
 // DELETE
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id',isAdmin, (req, res) => {
   db.Course.findByPk(req.params.id).then(course => {
     if (course===null) {
       const message="La discipline demandée n'existe pas. Réessayez avec un autre indentifiant."

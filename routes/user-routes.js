@@ -3,7 +3,9 @@ const router= express.Router();
 const db =require("../models");
 const bcrypt = require('bcrypt')
 const jwt= require ('jsonwebtoken')
-const privateKey= require('../auth/private_key')  
+const privateKey= require('../auth/private_key') 
+const auth=require('../auth/auth') 
+const isAdmin=require('../auth/isAdmin')
 
 
 // CREATION
@@ -63,7 +65,18 @@ router.post('/signin', (req, res,next)=>{
         const message = `L'utilisateur n'a pas pu être connecté. Réessayez dans quelques instants.`;
           return res.status(500).json({ message, data: error })
     })
-  })
+  });
+
+//  GET
+
+router.get("/", auth, (req, res) => {
+  res.status(200).send("User Content.")
+})
+
+router.get("/admin", isAdmin, (req, res) => {
+    res.status(200).send("Admin Content.")}
+);
+
 
 
 module.exports = router;

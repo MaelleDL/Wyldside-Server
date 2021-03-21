@@ -8,25 +8,29 @@ const app= express();
 
 app.use(bodyParser.json()).use(cors());
 
-// CRUD User
+//User
 const userRoutes=require('./routes/user-routes')
 app.use("/auth", userRoutes);
 
-// CRUD Offer
+//Offer
 const offerRoutes=require('./routes/offer-routes')
 app.use("/offer", offerRoutes);
 
-// CRUD Course
+//Course
 const courseRoutes=require('./routes/course-routes')
 app.use("/course", courseRoutes);
 
-// CRUD Forfait
+//Forfait
 const forfaitRoutes=require('./routes/forfait-routes')
 app.use("/forfait", forfaitRoutes);
 
-// CRUD Section
+//Section
 const sectionRoutes=require('./routes/section-routes')
 app.use("/section", sectionRoutes);
+
+//Order
+const orderRoutes=require('./routes/order-routes')
+app.use("/order", orderRoutes);
 
 db.sequelize.sync().then(()=>{
     app.listen(PORT, () => {
