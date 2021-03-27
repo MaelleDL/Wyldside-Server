@@ -32,8 +32,8 @@ app.use("/section", sectionRoutes);
 const orderRoutes=require('./routes/order-routes')
 app.use("/order", orderRoutes);
 
-db.sequelize.sync().then(()=>{
-    app.listen(PORT, () => {
-        console.log(`listening at: App is listening on port ${PORT}: http://localhost:${PORT}`)
-    })
-})
+app.get('/test', async (req, res) => {
+    res.json({message: 'pass!'})
+  })
+
+module.exports = app;

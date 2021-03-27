@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
         {foreignKey:{
           allowNull:false
         }})
-        Section.hasOne(models.Offer);
+        Section.hasMany(models.Offer);
     }
 
 

@@ -1,12 +1,20 @@
 const express= require("express");
 const router= express.Router();
+const { Op } = require("sequelize");
 const db =require("../models");
-const { ValidationError, UniqueConstraintError }= require('sequelize')
+const jwt= require ('jsonwebtoken');
+const privateKey= require('../auth/private_key') ;
+const { ValidationError, UniqueConstraintError }= require('sequelize');
+const auth=require('../auth/auth');
 
 // POST
 router.post('/new', async(req, res)=>{
-
-   const savedOrder= await db.Order.create(req.body)
+  const token = req.headers.authorization.split(' ')[1];
+  const decodedToken=jwt.verify(token, privateKey);
+  const Order={
+    UserId:decodedToken.userId
+  }
+   const savedOrder= await db.Order.create(Order)
     req.body.Offers.forEach((item)=>{
         const offer= db.Offer.findByPk(item.id);
         if(!offer){
@@ -36,12 +44,24 @@ router.post('/new', async(req, res)=>{
 })
 
 // READ ALL
-router.get("/", (req, res) => {
-    db.Order.findAll( {include:[{model:db.Offer, as:"Offers"}]}).then(order => {
+router.get("/", auth, (req, res) => {
+  if(req.query.UserId){
+    const user=req.query.UserId;
+    return db.Order.findAll({
+      where:{
+        UserId:{[Op.eq]:user}
+      },
+      include:[{model:db.Offer, as:"Offers", include:[db.Course, db.Forfait, db.Section]}]
+    }).then(order=>{
+      res.send(order);
+    })
+  }else{
+    db.Order.findAll( {include:[{model:db.Offer, as:"Offers", include:[db.Course, db.Forfait, db.Section]}]}).then(order => {
         res.json(order);
       }).catch(function (err) {
           console.log("findAll failed with error: " + err );
           return null;
-      })})
+      })}
+    })
 
 module.exports=router;

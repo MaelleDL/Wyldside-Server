@@ -19,14 +19,11 @@ module.exports = (req, res, next) => {
     }
     const userId = decodedToken.userId
     db.User.findByPk(userId).then(user => {
-        console.log(user)
         if (user.role === "ADMIN") {
               next();
               return;
             }    
-          res.status(403).send({
-            message: "Require Admin Role!"
-          });
+          res.send(false);
           return;
         })
     })

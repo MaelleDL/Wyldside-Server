@@ -23,7 +23,16 @@ module.exports = (req, res, next) => {
         const message = `L'identifiant de l'utilisateur est invalide.`
         res.status(401).json({ message })
       } else {
-      next()
+        db.User.findByPk(userId).then(user => {
+          if (user.role === "ADMIN") {
+            next()
+                return user.role;
+              }
+              else{
+                next()
+                return user.role;
+              };
+            })
       }
     })
     };

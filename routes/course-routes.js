@@ -10,7 +10,7 @@ router.post('/new', isAdmin, (req, res)=>{
     db.Course.create(req.body)
       .then(course => {
         const message = `La discipline ${req.body.name} a bien été crée.`
-        res.json({ message, data: course })
+        res.status(200).json({ message, data: course })
       })
       .catch(error=>{
         if(error instanceof ValidationError){
@@ -27,7 +27,7 @@ router.post('/new', isAdmin, (req, res)=>{
 // READ ALL
 router.get("/", (req, res) => {
     db.Course.findAll({include:[{model: db.Forfait, as :"Forfaits"}, db.Section]}).then(course => {
-        res.json(course);
+        res.status(200).json(course);
       }).catch(function (err) {
           console.log("findAll failed with error: " + err );
           return null;
@@ -55,7 +55,7 @@ router.get("/:id", (req, res) =>{
 
 // UPDATE
 
-router.put('/:id',isAdmin, (req, res) => {
+router.put('/:id', isAdmin, (req, res) => {
   const id = req.params.id
   db.Course.update(req.body, {
     where: { id: id }
@@ -67,7 +67,7 @@ router.put('/:id',isAdmin, (req, res) => {
         return res.status(404).json({message})
       }
       const message = `La discipline ${course.name} a bien été modifiée.`
-      res.json({message, data: course })
+      res.status(200).json({message, data: course })
     })
   })
   .catch(error=>{
@@ -85,7 +85,7 @@ router.put('/:id',isAdmin, (req, res) => {
 
 // DELETE
 
-router.delete('/:id',isAdmin, (req, res) => {
+router.delete('/:id', isAdmin, (req, res) => {
   db.Course.findByPk(req.params.id).then(course => {
     if (course===null) {
       const message="La discipline demandée n'existe pas. Réessayez avec un autre indentifiant."
@@ -97,7 +97,7 @@ router.delete('/:id',isAdmin, (req, res) => {
     })
     .then(_ => {
       const message = `La discipline avec l'identifiant n°${courseDeleted.id} a bien été supprimée.`
-      res.json({message, data: courseDeleted })
+      res.status(200).json({message, data: courseDeleted })
     })
   })
   .catch(error=>{

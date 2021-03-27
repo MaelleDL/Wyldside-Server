@@ -67,15 +67,46 @@ router.post('/signin', (req, res,next)=>{
     })
   });
 
+
 //  GET
 
+// Check User
 router.get("/", auth, (req, res) => {
-  res.status(200).send("User Content.")
+  res.status(200).send(true)
+})
+//Check Admin
+router.get("/admin", isAdmin, (req, res) => {
+    res.status(200).send(true)}
+);
+
+//Get Personnal Info
+router.get("/user", auth, (req, res)=>{
+  const token = req.headers.authorization.split(' ')[1];
+  const decodedToken=jwt.verify(token, privateKey);
+  db.User.findByPk(decodedToken.userId)
+      .then(User => {
+        if (User===null) {
+          const message="L'utilisateur demandée n'existe pas. Réessayez avec un autre indentifiant."
+          return res.status(404).json({message})
+        }
+        res.json(User)
+      })
+      .catch(error=>{
+        const message= "L'utilisateur n'a pas pu être récupéré. Réessayez dans quelques instants."
+        res.status(500).json({message, data:error})
+      })
 })
 
-router.get("/admin", isAdmin, (req, res) => {
-    res.status(200).send("Admin Content.")}
-);
+//READ ALL
+router.get("/users", isAdmin, (req, res)=>{
+  db.User.findAndCountAll({attributes:{exclude: ['password'] }}).then(
+    ({ count, rows })=>{
+      res.status(200).json({count:count, users: rows});
+    }).catch(function (err) {
+      console.log("findAll failed with error: " + err );
+      return null;
+  })
+})
 
 
 

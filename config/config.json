@@ -9,9 +9,9 @@
   "test": {
     "username": "root",
     "password": null,
-    "database": "database_test",
+    "database": "wyldside",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mariadb"
   },
   "production": {
     "username": "u8lyrx02g6ml9vge",
