@@ -19,10 +19,6 @@ module.exports = (req, res, next) => {
     }
   
     const userId = decodedToken.userId
-      if (req.body.userId && req.body.userId !== userId) {
-        const message = `L'identifiant de l'utilisateur est invalide.`
-        res.status(401).json({ message })
-      } else {
         db.User.findByPk(userId).then(user => {
           if (user.role === "ADMIN") {
             next()
@@ -33,6 +29,5 @@ module.exports = (req, res, next) => {
                 return user.role;
               };
             })
-      }
     })
     };
